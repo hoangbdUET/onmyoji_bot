@@ -11,7 +11,7 @@ import tkinter as tk
 
 
 def is_admin():
-    # UAC申请，获得管理员权限
+    # UAC application, get administrator rights
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
@@ -25,14 +25,14 @@ class MyBattle(Application):
 
     def set_conf(self):
         '''
-        设置参数至配置文件
+        Set parameters to configuration file
         '''
-        # 运行参数
+        # Operating parameters
         self.conf.set('DEFAULT', 'client', str(self.client.current()))
         section = self.section.index('current')
         self.conf.set('DEFAULT', 'run_section', str(section))
 
-        # 一般参数
+        # General parameters
         self.conf.set('watchdog', 'watchdog_enable',
                       str(self.watchdog_enable.get()))
         self.conf.set('watchdog', 'max_win_time', str(self.max_win_time.get()))
@@ -42,7 +42,7 @@ class MyBattle(Application):
         self.conf.set('others', 'debug_enable', str(
             self.debug_enable.get()))
 
-        # 御魂参数
+        # Yuhun parameters
         self.conf.set('DEFAULT', 'run_mode', str(self.run_mode.get()))
         self.conf.set('DEFAULT', 'max_times', str(self.max_times.get()))
         self.conf.set('DEFAULT', 'end_operation',
@@ -51,7 +51,7 @@ class MyBattle(Application):
         self.conf.set('mitama', 'mitama_team_mark',
                       str(self.mitama_team_mark.current()))
 
-        # 探索参数
+        # Explore parameters
         self.conf.set('explore', 'explore_mode', str(self.explore_mode.get()))
         self.conf.set('explore', 'gouliang', str(self.gouliang))
         self.conf.set('explore', 'gouliang_b', str(self.gouliang_b))
@@ -65,7 +65,7 @@ class MyBattle(Application):
                       str(self.cmb.current()))
 
     def get_conf(self):
-        # 添加配置
+        # Add configuration
         try:
             self.conf.add_section('watchdog')
             self.conf.add_section('mitama')
@@ -74,18 +74,18 @@ class MyBattle(Application):
         except:
             pass
 
-        # 修改配置
+        # Change setting
         self.set_conf()
 
-        # 保存配置文件
+        # Save the configuration file
         with open('conf.ini', 'w') as configfile:
             self.conf.write(configfile)
 
     def start_onmyoji(self):
-        # 显示参数
+        # Display parameters
         self.show_params()
 
-        # 读取主要副本
+        # Read primary copy
         self.get_conf()
 
         subprocess.Popen("cmd.exe /c start Core.exe")
@@ -112,14 +112,14 @@ def my_excepthook(exc_type, exc_value, tb):
 
 if __name__ == "__main__":
     try:
-        # 检测管理员权限
+        # Detect administrator permissions
         if is_admin():
-            # 初始化日志
+            # Initialization log
             MyLog.init()
 
-            # 错误消息进日志
+            # Error message into the log
             sys.excepthook = my_excepthook
-            logging.info('获取管理员权限')
+            logging.info('Get admin rights')
 
             # Query DPI Awareness (Windows 10 and 8)
             awareness = ctypes.c_int()
@@ -135,7 +135,7 @@ if __name__ == "__main__":
             success = ctypes.windll.user32.SetProcessDPIAware()
             # behaviour on later OSes is undefined, although when I run it on my Windows 10 machine, it seems to work with effects identical to SetProcessDpiAwareness(1)
 
-            # 设置战斗参数
+            # Set battle parameters
             root = tk.Tk()
             app = MyBattle(root)
             app.mainloop()
