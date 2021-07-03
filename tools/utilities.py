@@ -6,12 +6,12 @@ import time
 
 class Mood:
     '''
-    用于模拟随机的点击频率，每5分钟更换一次点击规律\n
-    energetic: 状态极佳，点击延迟在1-1.5s\n
-    joyful: 状态不错，点击延迟在1.3-2.1s\n
-    normal: 状态一般，点击延迟在1.8-3s\n
-    tired: 状态疲劳，点击延迟在2.5-4\n
-    exhausted: CHSM，点击延迟在3-5s\n
+    Used to simulate random click frequency, changing the click rule every 5 minutes\n
+     energetic: The status is excellent, the click delay is 1-1.5s\n
+     joyful: The state is good, the click delay is 1.3-2.1s\n
+     normal: Normal state, the click delay is 1.8-3s\n
+     tired: state fatigue, click delay is 2.5-4\n
+     exhausted: CHSM, click delay is 3-5s\n
     '''
     __first_init = True
 
@@ -22,16 +22,16 @@ class Mood:
             self.read_config()
             Mood.__first_init = False
         a = random.randint(1, self.state)
-        logging.info("创建延迟参数，等级: %d", a)
+        logging.info("Create delay parameter, level: %d", a)
         self.lastmood = Mood.mymood[a]
 
     def read_config(self):
         try:
-            # 读取延迟配置
+            # Read delay configuration
             with open('delay.json', 'r') as f:
                 fileObject = f.read()
             jsObj = json.loads(fileObject)
-            logging.info('读取延迟配置文件成功')
+            logging.info('Read the delay configuration file successfully')
             Mood.mymood = {
                 1: (jsObj['1'][0], jsObj['1'][1]),
                 2: (jsObj['2'][0], jsObj['2'][1]),
@@ -39,18 +39,18 @@ class Mood:
                 4: (jsObj['4'][0], jsObj['4'][1]),
                 5: (jsObj['5'][0], jsObj['5'][1])}
         except FileNotFoundError:
-            # 文件未找到
-            logging.info('使用默认延迟参数')
+            # file not found
+            logging.info('Use default delay parameters')
             self.set_default()
         except:
-            # 其他错误
-            logging.warning('延迟配置文件错误，使用默认参数')
+            # Other errors
+            logging.warning('Delay configuration file error, use default parameters')
             self.set_default()
-        logging.info('延迟参数: '+str(Mood.mymood))
+        logging.info('Delay parameter: '+str(Mood.mymood))
 
     def set_default(self):
         '''
-        设置默认延迟参数
+        Set default delay parameters
         '''
         Mood.mymood = {
             1: (1000, 500),
@@ -64,7 +64,7 @@ class Mood:
             self.lastime = time.time()
             a = random.randint(1, self.state)
             self.lastmood = Mood.mymood[a]
-            logging.info("修改延迟参数，等级 %d", a)
+            logging.info("Modify the delay parameter, level %d", a)
         return self.lastmood
 
     def moodsleep(self):
@@ -76,8 +76,8 @@ class Mood:
 
 def firstposition():
     '''
-    获得点击位置，扣除御魂部分
-        :return: 返回随机位置坐标
+    Get the click location, deduct the soul part
+         :return: return random position coordinates
     '''
     safe_area = {
         1: ((20, 106), (211, 552)),
@@ -89,17 +89,17 @@ def firstposition():
 
 def secondposition():
     '''
-    获得点击位置，扣除御魂部分
-        :return: 返回随机位置坐标
+    Get the click location, deduct the soul part
+         :return: return random position coordinates
     '''
     return (random.randint(970, 1111), random.randint(100, 452))
 
 
 def checkposition(pos):
     '''
-    校核结算位置
-        :param pos: (x, y)位置坐标
-        :return: 如果合适返回True，否则返回False
+    Check settlement location
+         :param pos: (x, y) position coordinates
+         :return: return True if appropriate, otherwise return False
     '''
     if pos[0] < 1111 and pos[0] > 970:
         if pos[1] < 452 and pos[1] > 100:

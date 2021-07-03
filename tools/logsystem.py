@@ -15,7 +15,7 @@ class MyLog():
                             filemode='w')
 
         #################################################################################################
-        #定义一个StreamHandler，将INFO级别或更高的日志信息打印到标准错误，并将其添加到当前的日志处理对象#
+        #Define a StreamHandler, print INFO level or higher log information to standard error, and add it to the current log processing object#
         console = logging.StreamHandler()
         console.setLevel(logging.INFO)
         formatter = logging.Formatter(
